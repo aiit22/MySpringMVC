@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="lee.sample.framework.bbs.dao.BoardMapper">
+<!-- 캐쉬 설정이다 있으면 캐싱됨 -->
+<!-- 	<cache  /> -->
+	
+	<insert id="insertBoard" parameterType="Board">
+		INSERT INTO SPRING.BBS (
+		   BBS_ID, BBS_TITLE, BBS_CONTENT, 
+		   BBS_FILE) 
+		VALUES ( bbs_seq.nextval,
+		 		 #{bbsTitle},
+		 		 #{bbsContent},
+		 		 #{bbsFile} )
+	</insert>
+	
+	<update id="updateBoard" parameterType="Board">
+		UPDATE SPRING.BBS
+		SET    BBS_TITLE   = #{bbsTitle},
+		       BBS_CONTENT = #{bbsContent},
+		       BBS_FILE    = #{bbsFile}
+		where bbs_id = #{bbsId}
+	</update>
+	
+	<delete id="deleteBoard" parameterType="Board">
+		DELETE FROM BBS
+		WHERE BBS_ID = #{bbsId}
+	</delete>
+	
+	<select id="selectBoard" resultType="Board" parameterType="Board">
+		 SELECT 
+			BBS_ID bbsId, 
+			BBS_TITLE bbsTitle, 
+			BBS_CONTENT bbsContent, 
+			BBS_FILE bbsFile
+		 FROM BBS
+		 WHERE BBS_ID = #{bbsId}
+		
+	</select>
+	
+	<select id="selectBoardCount" resultType="int" >
+		SELECT count(*) cnt 
+		 FROM BBS where bbs_id > 0
+	</select>
+	
+	<select id="selectBoardList" resultType="Board" parameterType="Map">
+		select rnum , 
+				bbs_id bbsId, 
+				bbs_title bbsTitle, 
+				bbs_content bbsContent, 
+				bbs_file bbsFile from (
+			select /*+ index_desc(bbs, bbs_pk)*/ rownum rnum , bbs_id, bbs_title, bbs_content, bbs_file from bbs
+			where bbs_id > 0 
+			and rownum &lt;= #{lastIndex} 
+		 ) where rnum &gt;  #{firstIndex}
+	</select>
+	
+	
+
+
+</mapper>

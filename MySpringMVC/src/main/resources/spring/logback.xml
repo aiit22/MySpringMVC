@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<jmxConfigurator />
+
+	<appender name="console" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="rollingFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>C:/eGovFrame-2.6/workspace.edu/MySpringMVC/logs/myapp.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>logs/myapp.%d{yyyy-MM-dd}.log</fileNamePattern>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<!-- project default level -->
+	
+	<logger name="lee.sample.framework" level="INFO" />
+	
+	<logger name="org.springframework.data" level="INFO" />
+
+	<logger name="org.springframework.core" level="INFO" />
+
+	<logger name="org.springframework.beans" level="INFO" />
+
+	<logger name="org.springframework.context" level="INFO" />
+
+	<logger name="org.springframework.http" level="INFO" />
+
+	<logger name="org.springframework.web" level="INFO" />
+	
+	<logger name="jdbc.sqltiming" level="DEBUG"/>
+	
+	<logger name="jdbc.sqlonly" level="DEBUG" />
+	
+	
+	<root level="WARN">
+		<appender-ref ref="console" />
+		<appender-ref ref="rollingFile" />
+	</root>
+</configuration>
